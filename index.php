@@ -15,8 +15,7 @@ include("libs/babyNames.php");
 	<div class="container">
 		<h1>Hello, world!</h1>
 		<?php 
-
-			
+			var_dump(getBabyNames('1984'));
 		?>
 	</div>
 </body>

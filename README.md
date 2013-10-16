@@ -8,7 +8,12 @@
 4. Display the data using JQuery Datatables
 
 ## Cache
-* Cache will be stored by Year and Number of names. It is assumed we will be using the same parameters for the number as stated on the website. However, we can search for any number.
+* Cache will be stored by Year and be named that way.
 * Data will be stored as JSON to give good storage and better performance on the table.
 * If the connection to the website is down, we need to not overwrite what is in place.
 * Need to store a last updated date incase there are issues with data validity that can then be checked later.
+
+#Assumptions
+* The website that we are collecting the data from will not change
+* That we will only be looking for male data, but will develop with future in mind for getting a mixture of results
+* That baby name will be the unique identifier

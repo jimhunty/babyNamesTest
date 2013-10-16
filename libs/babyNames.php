@@ -3,10 +3,11 @@
 Author: James Miller
 Date Created: 16/10/2013
 ========================= */
-function getBabyNames($year, $num){
+function getBabyNames($year){
 	// Class to select HTML DOM elements
 	include("htmldom/simple_html_dom.php");
 	$url = 'http://www.socialsecurity.gov/cgi-bin/popularnames.cgi';
+	$num = 1000;
 	$myvars = 'year='.$year.'&top='.$num;
 
 	$ch = curl_init( $url );

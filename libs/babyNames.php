@@ -10,8 +10,6 @@ Class babyNames {
 
 	public function getData($startYear, $endYear){
 		// Validate the years chosen
-
-		//if (strlen($ccexpyear) != 4) also 1880 - 2010
 		// Initial string validation
 		if((strlen($startYear) != 4)||(strlen($endYear) != 4)){
 			return "error";
@@ -37,6 +35,7 @@ Class babyNames {
 					$totalAdd = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/cache/'.$i.'.json');
 					$totalAdd = json_decode($totalAdd, true);
 					foreach($totalAdd as $addition){
+						// If it already exists, then add to its number
 						if(in_array($addition['name'], $listOfNames)){
 							$totalSize = sizeof($total);
 							for($d = 0; $d < $totalSize; $d++){
@@ -52,32 +51,13 @@ Class babyNames {
 
 					
 				}
-				//var_dump($total);
-
+				
+				// output as JSON for Datatables
 				$total = array("aaData" => $total);
 				echo json_encode($total);
 
-				// Now need to concatenate all of the duplicates together
-				/*$finalTotal = array();
-				$totalSize = sizeof($total);
-				for($d = 0; $d < $totalSize; $d++){
-					foreach($total[$d] as $key => $value){
-						if(){
-
-						}
-						echo $key." : ".$value."<br />";
-					}
-
-				}*/
 			}
 		}
-		
-		/*
-		
-		$log = array();
-		$jsonFiles = scandir($_SERVER['DOCUMENT_ROOT'].'/cache/');
-
-		// Collate all the names and numbers together into one big array as pass back*/
     }
 
 	public function getWebsiteData($year){

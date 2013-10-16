@@ -62,9 +62,11 @@ if(empty($_REQUEST['startDate'])){$startDate = "2008";} else {$startDate = $_REQ
 	<script type="text/javascript">
 		$( document ).ready(function() {
 
+			//Date variables to pass through to the Ajax function
 			var startingDate = $('#startDate').val();
 			var endingDate = $('#endDate').val();
 
+			// Datatable controls
 			$('#myTickets').dataTable({
 				"bStateSave": true,
 				"aaSorting": [[ 1, "desc" ]],
@@ -83,6 +85,7 @@ if(empty($_REQUEST['startDate'])){$startDate = "2008";} else {$startDate = $_REQ
 		          }
 		     });
 
+			// Year picker controls
 			$("#startDate, #endDate").datepicker({
 			    format: " yyyy",
 			    viewMode: "years", 
@@ -90,8 +93,6 @@ if(empty($_REQUEST['startDate'])){$startDate = "2008";} else {$startDate = $_REQ
 			    startDate: "1880",
 			    endDate: "2010"
 			});
-
-			//$('button').prop('disabled', true);
 		});
 	</script>
 </html>

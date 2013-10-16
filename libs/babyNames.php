@@ -10,14 +10,74 @@ Class babyNames {
 
 	public function getData($startYear, $endYear){
 		// Validate the years chosen
-		if(($startYear <= $endYear)&&(is_int($startYear))&&(is_int($startYear))){
 
-		// See if there is a json file for these inclusive years, if not then getWebsiteData
+		//if (strlen($ccexpyear) != 4) also 1880 - 2010
+		// Initial string validation
+		if((strlen($startYear) != 4)||(strlen($endYear) != 4)){
+			return "error";
+		} else {
+			// Check to see of start is greater than end
+			$startYear = (int)$startYear;
+			$endYear = (int)$endYear;
+			if(($startYear > $endYear)||($startYear < 1880)||($startYear > 2010)||($endYear < 1880)||($endYear > 2010)){
+				return "error ";
+			} else {
+				// Otherwise, we have passed validation!
+
+				$total = array();
+				$listOfNames = array();
+
+				// Go thorugh each year
+				for($i = $startYear; $i < $endYear+1; $i++){
+					if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/cache/'.$i.'.json')) {
+						// Cache file doesn't exist so we create it.
+						$this->getWebsiteData($i);
+					} 
+					// Add this one to the pile
+					$totalAdd = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/cache/'.$i.'.json');
+					$totalAdd = json_decode($totalAdd, true);
+					foreach($totalAdd as $addition){
+						if(in_array($addition['name'], $listOfNames)){
+							$totalSize = sizeof($total);
+							for($d = 0; $d < $totalSize; $d++){
+								if($total[$d]['name'] == $addition['name']){
+									$total[$d]['number'] = $total[$d]['number']+$addition['number'];
+								}
+							}
+						} else {
+							array_push($total, $addition);
+							$listOfNames[] = $addition['name'];
+						}
+					}
+
+					
+				}
+				//var_dump($total);
+
+				$total = array("aaData" => $total);
+				echo json_encode($total);
+
+				// Now need to concatenate all of the duplicates together
+				/*$finalTotal = array();
+				$totalSize = sizeof($total);
+				for($d = 0; $d < $totalSize; $d++){
+					foreach($total[$d] as $key => $value){
+						if(){
+
+						}
+						echo $key." : ".$value."<br />";
+					}
+
+				}*/
+			}
+		}
+		
+		/*
+		
 		$log = array();
 		$jsonFiles = scandir($_SERVER['DOCUMENT_ROOT'].'/cache/');
 
-		// Collate all the names and numbers together into one big array as pass back
-		}
+		// Collate all the names and numbers together into one big array as pass back*/
     }
 
 	public function getWebsiteData($year){
@@ -26,7 +86,7 @@ Class babyNames {
 
 		// Constants
 		$url = 'http://www.socialsecurity.gov/cgi-bin/popularnames.cgi';
-		$num = 10;
+		$num = 500;
 		$myvars = 'year='.$year.'&top='.$num.'&number=n';
 
 		// Initiate a CURL post

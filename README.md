@@ -25,3 +25,6 @@
 * If i was releasing this in the wild, I would pre-cache the years and run a cron job looking for differences in data. That would give a better performance.
 * Break down the functions into smaller chunks to create better objects
 * To improve the UI in general, but particularly when viewing large amounts of assets
+* Increase number being got to 1000 if my connection strength wasn't as poor as it was last night
+* Put correct fallbacks in place
+* Improve performance, perhaps through a better API or more caching

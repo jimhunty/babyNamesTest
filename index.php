@@ -1,9 +1,7 @@
 <?php
-include("libs/babyNames.php");
-$startDate = $_REQUEST['startDate'];
-$endDate = $_REQUEST['endDate'];
-
-echo $startDate." - ".$endDate;
+// Default Values
+if(empty($_REQUEST['endDate'])){$endDate = "2010";} else {$endDate = $_REQUEST['endDate'];}
+if(empty($_REQUEST['startDate'])){$startDate = "2008";} else {$startDate = $_REQUEST['startDate'];}
 
 ?>
 <!doctype html>
@@ -48,18 +46,12 @@ echo $startDate." - ".$endDate;
 					          <th>Total</th>
 					     </thead>
 					     <tbody>
-					     	<?php
 
-					     	?>
 					     </tbody>
 					</table>
   				</div>
   			</div>
   		</div>
-		<?php 
-			/*$babyNames = new babyNames();
-			$babyNames->getWebsiteData('1984');*/
-		?>
 	</div>
 </body>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -70,11 +62,14 @@ echo $startDate." - ".$endDate;
 	<script type="text/javascript">
 		$( document ).ready(function() {
 
+			var startingDate = $('#startDate').val();
+			var endingDate = $('#endDate').val();
+
 			$('#myTickets').dataTable({
 				"bStateSave": true,
 				"aaSorting": [[ 1, "desc" ]],
 				"bProcessing": true,
-        		"sAjaxSource": "cache/1984.json",
+        		"sAjaxSource": "ajax.php?startDate="+startingDate+"&endDate="+endingDate,
 		          "aoColumns": [
 		            //{"mData": "rank"},
 		            {"mData": "name"},

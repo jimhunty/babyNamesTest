@@ -5,11 +5,22 @@ Date Created: 16/10/2013
 ========================= */
 Class babyNames {
 
-	function __construct() {
-       
-   }
+	function __construct() {   
+    }
 
-	public static function getWebsiteData($year){
+	public function getData($startYear, $endYear){
+		// Validate the years chosen
+		if(($startYear <= $endYear)&&(is_int($startYear))&&(is_int($startYear))){
+
+		// See if there is a json file for these inclusive years, if not then getWebsiteData
+		$log = array();
+		$jsonFiles = scandir($_SERVER['DOCUMENT_ROOT'].'/cache/');
+
+		// Collate all the names and numbers together into one big array as pass back
+		}
+    }
+
+	public function getWebsiteData($year){
 		// Class to select HTML DOM elements
 		include("htmldom/simple_html_dom.php");
 
@@ -51,15 +62,31 @@ Class babyNames {
 						// Tidy data, split it and add it into an array
 			    		$names = explode(" ", trim($str));
 			    		$names[1] = str_replace(",", "", $names[1]);
+			    		$names[1] = strip_tags($names[1]);
 			    		preg_match_all('/^([^\d]+)(\d+)/', $names[1], $match);
 
-						$data[] = array($match[1][0], $match[2][0]);
+						$data[] = array("name" => $match[1][0], "number" => $match[2][0]);
 			    	}
 				}
 		$i++;
 		}	
+		// Cache the data as a JSON file
+		$this->cacheData($year, $data);
+
 		// Return as a 2D array to be used in other functions
 		return $data;
+	}
+
+	// Function to cache any new data come from the site
+	private function cacheData($name, $data){
+		// Encode this as JSON
+		$data = json_encode($data);
+
+		// Cache the data in the Cache folder with the filename that matches the year
+		$cache = $_SERVER['DOCUMENT_ROOT'].'/cache/'.$name.'.json';
+		$cachefile = fopen($cache, 'w');
+		fwrite($cachefile,$data);
+		fclose($cachefile);
 	}
 }
 ?>
